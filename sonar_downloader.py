@@ -17,6 +17,8 @@ satty_text = "                                                                  
 
 SONARQUBE_URL = 'https://sonarcloud.io/api/'
 
+headers = {}
+
 def get_orgs():
     response = requests.get(f"{SONARQUBE_URL}organizations/search?member=true", headers=headers)
     if response.status_code == 200:

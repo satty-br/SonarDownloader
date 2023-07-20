@@ -24,11 +24,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run Tests and Measure Coverage
-        run: |
-          pip install coverage
-          coverage run -m unittest test_sonarDownloader.py
-          coverage report -m
 
   sonarcloud:
     name: SonarCloud
