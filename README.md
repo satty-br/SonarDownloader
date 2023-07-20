@@ -39,7 +39,7 @@ Make sure to replace YOUR_API_KEY_HERE with the API key copied from SonarQube.
 
 After correctly configuring the API key, you can run SonarDownloader as follows:
 ```shell
-python sonar_downloader.py
+python sonar_downloader.py  --key=yoursonarkey
 ```
 
 SonarDownloader will retrieve the list of projects associated with the provided API key and then proceed to download all projects into a directory called "projects". The source code files of each project will be stored in individual subdirectories within "projects".

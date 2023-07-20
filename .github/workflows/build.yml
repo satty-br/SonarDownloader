@@ -1,0 +1,67 @@
+name: Python CI
+
+on:
+    push:
+        branches:
+            - main
+
+env:
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  ZIP_FILENAME: "project_name_${{ github.sha }}.zip"
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Archive files
+        run: zip -r ${{ env.ZIP_FILENAME }} ./*
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: ${{ env.ZIP_FILENAME }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.sha }}
+          release_name: Release ${{ github.sha }}
+          draft: false
+          prerelease: false
+
+      - name: Attach artifact to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.ZIP_FILENAME }}
+          asset_name: ${{ env.ZIP_FILENAME }}
+          asset_content_type: application/zip
