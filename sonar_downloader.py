@@ -90,7 +90,7 @@ if __name__ == '__main__':
     SONAR_API_KEY = args.key
     if not args.key:
         SONAR_API_KEY = os.getenv('SONAR_API_KEY')
-    args.key, org=args.org
+
     headers = {'Authorization': f'Bearer {SONAR_API_KEY}'}
     print(f"{Fore.GREEN}{project_name_ascii}")
     print(f"{Fore.BLUE}{satty_text}")
