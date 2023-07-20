@@ -10,8 +10,8 @@ Make sure you have Python installed on your system. SonarDownloader has been tes
 
 ### Clone this repository to your local system:
 ```shell
-git clone https://github.com/your-username/sonar-downloader.git
-cd sonar-downloader
+git clone https://github.com/satty-br/SonarDownloader.git
+cd SonarDownloader
 ```
 ### Install the necessary dependencies:
 ```shell
