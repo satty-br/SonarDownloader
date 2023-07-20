@@ -9,14 +9,14 @@ Make sure you have Python installed on your system. SonarDownloader has been tes
 ## Installation
 
 ### Clone this repository to your local system:
-´´´
+```shell
 git clone https://github.com/your-username/sonar-downloader.git
 cd sonar-downloader
-´´´
+```
 ### Install the necessary dependencies:
-´´´
+```shell
 pip install -r requirements.txt
-´´´
+```
 
 ## Configuration
 
@@ -38,9 +38,9 @@ Make sure to replace YOUR_API_KEY_HERE with the API key copied from SonarQube.
 ##Usage
 
 After correctly configuring the API key, you can run SonarDownloader as follows:
-´´´
+```shell
 python sonar_downloader.py
-´´´
+```
 
 SonarDownloader will retrieve the list of projects associated with the provided API key and then proceed to download all projects into a directory called "projects". The source code files of each project will be stored in individual subdirectories within "projects".
 
