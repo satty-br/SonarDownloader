@@ -18,21 +18,13 @@ satty_text = "                                                                  
 SONARQUBE_URL = 'https://sonarcloud.io/api/'
 
 def get_orgs():
+    response = requests.get(f"{SONARQUBE_URL}organizations/search?member=true", headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        return data.get("organizations", [])
 
-    orgs = []
-    while True:
-        response = requests.get(f"{SONARQUBE_URL}organizations/search?member=true", headers=headers)
-        if response.status_code == 200:
-            data = response.json()
-            orgs.extend(data.get("organizations", []))
-            if data.get('paging', {}).get('pageIndex') >= data.get('paging', {}).get('total'):
-                break
-            page += 1
-        else:
-            print(f"{Fore.RED}Failed to fetch projects: {response.status_code} - {response.json().get('errors')}")
-            break
-
-    return orgs
+    else:
+        print(f"{Fore.RED}Failed to fetch projects: {response.status_code} - {response.json().get('errors')}")
 
 def get_projects(org):
     projects = []
@@ -80,8 +72,6 @@ def download_project_files(project_key,base_proj_folder):
 
 def download_projects(projects,base_org_folder):
     for project in projects:
-        
-        base_org_folder
         project_key = project['key']
         project_name = project['name']
         base_proj_folder = f"{base_org_folder}/{project_name}/"
