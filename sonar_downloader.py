@@ -28,6 +28,7 @@ def get_orgs():
         print(f"{Fore.RED}Token not valid")
     else:
         print(f"{Fore.RED}Failed to fetch projects: {response.status_code} - {response.json().get('errors')}")
+    return []
 
 def get_projects(org):
     projects = []
@@ -85,12 +86,18 @@ def download_projects(projects,base_org_folder):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--key', type=str, default=None, help='A chave desejada.')
-    parser.add_argument('--org', type=str, default=None, help='A organização desejada.')
+    parser.add_argument('--key', type=str, default=None, help='Sonar token.')
+    parser.add_argument('--org', type=str, default=None, help='Only for a specfic org.')
+    parser.add_argument('--url', type=str, default=None, help='Sonar Url  defaul = https://sonarcloud.io/api/.')
     args = parser.parse_args()
     SONAR_API_KEY = args.key
     if not SONAR_API_KEY:
         SONAR_API_KEY = os.getenv('SONAR_API_KEY')
+    url =args.url
+    if url:
+        if not url.endswith('/api/'):
+            url += '/api/'
+        SONARQUBE_URL = url
 
     headers = {'Authorization': f'Bearer {SONAR_API_KEY}'}
     print(f"{Fore.GREEN}{project_name_ascii}")
