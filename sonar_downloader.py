@@ -24,7 +24,8 @@ def get_orgs():
     if response.status_code == 200:
         data = response.json()
         return data.get("organizations", [])
-
+    if response.status_code == 401:
+        print(f"{Fore.RED}Token not valid")
     else:
         print(f"{Fore.RED}Failed to fetch projects: {response.status_code} - {response.json().get('errors')}")
 
@@ -88,7 +89,7 @@ if __name__ == '__main__':
     parser.add_argument('--org', type=str, default=None, help='A organização desejada.')
     args = parser.parse_args()
     SONAR_API_KEY = args.key
-    if not args.key:
+    if not SONAR_API_KEY:
         SONAR_API_KEY = os.getenv('SONAR_API_KEY')
 
     headers = {'Authorization': f'Bearer {SONAR_API_KEY}'}
